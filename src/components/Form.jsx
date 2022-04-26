@@ -1,10 +1,15 @@
 import React from "react";
 import { firebase } from "../firebase";
-import { nanoid } from "nanoid";
+import { nanoid, customAlphabet } from "nanoid";
 import alertify from "alertifyjs";
 import 'alertifyjs/build/css/alertify.css';
 
 const Form = () => {
+
+    const IMAGE_BASE_URL = "https://picsum.photos/400/300?image=";
+
+    const generateNumber = customAlphabet('123456789', 3);
+
     const [user, setUser] = React.useState({
         id: "",
         avatar: "",
@@ -79,6 +84,7 @@ const Form = () => {
     const cleanInputs = () => {
         setUser({
             id: "",
+            avatar: "",
             firstname: "",
             lastname: "",
             email: "",
@@ -106,6 +112,7 @@ const Form = () => {
             const db = firebase.firestore();
 
             const newUser = {
+                avatar: IMAGE_BASE_URL + generateNumber(),
                 firstname,
                 lastname,
                 email,
@@ -138,7 +145,7 @@ const Form = () => {
         e.preventDefault();
 
         const {
-            id,
+            id,            
             firstname,
             lastname,
             email,
@@ -226,6 +233,9 @@ const Form = () => {
                                     {
                                         users.map(user => (
                                             <tr key={user.id} className="odd:bg-white even:bg-slate-100">
+                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                    <img src={user.avatar} alt="Avatar" className="h-20 rounded-full" />
+                                                </td>
                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                                     {user.firstname}
                                                 </td>
