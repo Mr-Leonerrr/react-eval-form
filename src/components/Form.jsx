@@ -1,3 +1,7 @@
+import React from 'react';
+import { firebase } from '../../firebase';
+import { nanoid } from 'nanoid';
+
 const Form = () => {
     <>
         <form>
